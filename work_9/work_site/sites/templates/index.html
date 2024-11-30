@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    {% block style %}{%endblock%}
+    {% block script %}{% endblock %}
+    <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .header p {
+        margin: 10px 0 0;
+        font-size: 1.2em;
+        color: #ddd;
+    }
+    /* Общие стили для кнопок */
+    .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .button:active {
+            background-color: #004080;
+        }
+
+        /* Стили для кнопки "Главная" */
+        .button.home {
+            background-color: #28a745;
+        }
+
+        .button.home:hover {
+            background-color: #218838;
+        }
+
+        .button.home:active {
+            background-color: #1e7e34;
+        }
+
+        /* Стили для кнопки "О нас" */
+        .button.about {
+            background-color: #dc3545;
+        }
+
+        .button.about:hover {
+            background-color: #c82333;
+        }
+
+        .button.about:active {
+            background-color: #bd2130;
+        }
+
+        .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+        border-radius: 5px;
+    }
+
+    .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Новости Москвы</h1>
+    </header>
+    <nav>
+        <ul>
+            <div class="button-container">
+            <a href="page_1.html" class="button home">Главная</a>
+            <a href="page_info.html" class="button about">О нас</a>
+            </div>
+        </ul>
+    </nav>
+    <main>
+        <h2 align = center>Добро пожаловать на новостной блог!</h2>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        {% block page %}{% endblock %}
+        <div class="pagination">
+            <a href="page_1.html">1</a>
+            <a href="page_2.html">2</a>
+        </div>
+        <p>&copy; 2023 Надежды</p>
+    </footer>
+</body>
+</html>
