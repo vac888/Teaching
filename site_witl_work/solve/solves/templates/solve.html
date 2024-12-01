@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Решение квадратного уравнения</title>
+</head>
+<body>
+    <h1>Решение квадратного уравнения</h1>
+    <p>Если решение нет напишите в полях ответа символ -</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Решить</button>
+    </form>
+</body>
+</html>

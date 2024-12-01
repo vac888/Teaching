@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+
+{%block style%}
+    <style>
+        .body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #search-input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        #search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #search-button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .image-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .image-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .image-item img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .image-item .text {
+            flex: 1;
+        }
+
+        .image-item h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .image-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+{%endblock%}
+
+
+
+{%block content%}
+<div class = "body">
+    <div>Доступные теги:Криминал, Животные, Происшествие, Политика, Погода, ДТП, Страны, Исскуства, Наука, Мероприятия</div>
+    <p>Искать можно только по одному тегу. Несколько не будут работать.</p>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Введите тег для поиска новостей...">
+        <button id="search-button">Найти</button>
+    </div>
+
+    <div id="results"></div>
+
+    <div id="picture" class = "image-list"></div>
+
+    <script>
+        document.getElementById('search-button').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-input').value;
+            const resultsContainer = document.getElementById('results');
+            let htmlString = ''
+            container = document.getElementById('picture');
+
+            if (searchTerm.trim() === '') {
+                resultsContainer.innerHTML = '<p>Пожалуйста, введите слово для поиска.</p>';
+                return;
+            }
+
+            resultsContainer.innerHTML = `<p>Результаты поиска для: <strong>${searchTerm.split(', ')}</strong></p>`;
+
+            for (let i = 0; i < searchTerm.split(', ').length; i++) {
+                '{% for group in image_teg %}'
+                '{% for teg in tegs %}'
+                if (searchTerm.split(', ') == '{{teg.name_teg}}') {
+                    //console.log('{{teg.name_teg}}');
+                    if ('{{teg.id}}' == '{{group.teg_id.id}}') {
+                        '{%for image in images%}'
+                        if ('{{image.id}}' == '{{group.image_id.id}}') {
+                            htmlString = htmlString + `
+                            <div class="image-item">
+                            <img src="{{ image.image.url }}" alt="Изображение 1">
+                            <div class="text">
+                            <p>{{image.title}}</p>
+                            </div>
+                            </div>
+                            `;
+                            container.innerHTML = htmlString;
+                        }
+                        '{%endfor%}'
+                    }
+                }
+                '{%endfor%}'
+                '{%endfor%}'
+            }
+        });
+    </script>
+</div>
+{%endblock%}

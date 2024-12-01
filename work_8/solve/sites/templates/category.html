@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпадающий список</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            margin: 20px auto; /* Центрирование по горизонтали */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .image-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .image-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .image-item img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .image-item .text {
+            flex: 1;
+        }
+
+        .image-item h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .image-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 50px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили при наведении */
+        .home-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Стили при нажатии */
+        .home-button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+
+<a href="page_1.html" class="home-button">На главную</a>
+
+<div class="container">
+    <h1>Выберите категорию новостей</h1>
+    <select id="options">
+        <option value="Преступление">Преступление</option>
+        <option value="option2">Исскуства</option>
+        <option value="option3">Животные</option>
+        <option value="option4">Экономика</option>
+        <option value="option5">Спорт</option>
+        <option value="option6">Погода</option>
+        <option value="option7">Учеба</option>
+        <option value="option8">Политика</option>
+    </select>
+    <button onclick="showResult()">Найти</button>
+    <div id="result"></div>
+</div>
+
+<div id = "test" class = "image-list">
+
+</div>
+
+<script type="text/javascript">
+    function showResult() {
+        container = document.getElementById('test');
+        const select = document.getElementById('options');
+        const resultDiv = document.getElementById('result');
+        const result  = select.options[select.selectedIndex].text;
+        var htmlString = ''
+        "{%for cat in category%}"
+        //console.log('{{ cat.id }}');
+        if (result == '{{ cat.name_category }}') {
+            //console.log('{{ cat.id }}');
+            "{%for news in images%}"
+            if ('{{ cat.id }}' == '{{ news.category_id }}') {
+                //console.log('{{ news.title }}')
+                //console.log('{{forloop.counter|length}}')
+                // Создаем HTML-строку
+                htmlString = htmlString + `
+                    <div class="image-item">
+                        <img src="{{ news.image.url }}" alt="Изображение 1">
+                        <div class="text">
+                            <p>{{news.title}}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Вставляем HTML в контейнер
+                container.innerHTML = htmlString;
+            }
+            "{%endfor%}"
+        }
+        //const resultDiv = document.getElementById('result');
+        
+        //document.getElementById("min").innerHTML = myVariable;
+        "{%endfor%}"
+    }
+</script>
+
+</body>
+</html>
