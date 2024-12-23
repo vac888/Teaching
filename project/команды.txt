@@ -1,0 +1,4 @@
+curl -X POST http://127.0.0.1:8000/generate-api-key/ -H "Content-Type: application/json" -u <логин>:<пароль>
+curl -X GET http://127.0.0.1:8000/protected-data/ -H "X-API-KEY: 3a3560dd9a914c61aab372a87060888e"
+
+

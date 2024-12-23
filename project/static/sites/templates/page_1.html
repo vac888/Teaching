@@ -1,0 +1,342 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <button id="resizeButton">Увеличить размеры</button>
+  <button id="resizeButton2">Уменьшить размеры</button>
+  <meta charset="utf-8">
+  <title>Гистограмма</title>
+  <style>
+    /* Общие стили */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    /* Стили для кнопок */
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Стили для контейнера с графиком */
+    #oil {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Стили для текста */
+    p {
+      font-size: 18px;
+      color: #E6E6FA;
+      margin: 10px 0;
+    }
+
+    /* Стили для ссылок */
+    a {
+      color: #E6E6FA;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Стили для заголовка графика */
+    .chart-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .text-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .text-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .text-container p {
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+  </style>
+  <script src="https://www.google.com/jsapi"></script>
+  <script>
+   google.load("visualization", "1", {packages:["corechart"]});
+   google.setOnLoadCallback(drawChart); 
+   
+   function drawChart() {
+      function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            const prefix = name + "=";
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(prefix) === 0) {
+                    return cookie.substring(prefix.length, cookie.length);
+                }
+            }
+            return "";
+      }
+
+      const savedobject = getCookie("chooseObject");
+      
+      if(savedobject == "math") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Математика'],
+        {% with математика=object|get:"Математика" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+      
+      if(savedobject == "russian") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Русский язык'],
+        {% with математика=object|get:"Русский язык" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+      
+      if(savedobject == "perm") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Обществознание'],
+        {% with математика=object|get:"Обществознание" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+      
+      if(savedobject == "inform") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Информатика'],
+        {% with математика=object|get:"Информатика" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "english") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Английский язык'],
+        {% with математика=object|get:"Английский язык" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "history") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'История'],
+        {% with математика=object|get:"История" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "liture") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Литература'],
+        {% with математика=object|get:"Литература" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "fizik") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Физика'],
+        {% with математика=object|get:"Физика" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "biology") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Биология'],
+        {% with математика=object|get:"Биология" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "himiy") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'Химия'],
+        {% with математика=object|get:"Химия" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+
+      if(savedobject == "geo") {
+      var data = google.visualization.arrayToDataTable([
+        ['Год', 'География'],
+        {% with математика=object|get:"География" %}
+          {% for год, значение in математика.items %}
+            [{{год}}, {{значение}}],
+          {% endfor %}
+        {% endwith %}
+      ]);
+      }
+    
+    var options = {
+     title: 'Баллы ЕГЭ',
+     hAxis: {title: 'Год'},
+     vAxis: {title: 'Баллы'},
+     legend: {position: 'none'}
+    };
+
+     // Функция для установки cookie
+     function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Функция для получения cookie
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            const prefix = name + "=";
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(prefix) === 0) {
+                    return cookie.substring(prefix.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Находим элемент и кнопку
+        const oilElement = document.getElementById('oil');
+        const resizeButton = document.getElementById('resizeButton');
+        const resizeButton2 = document.getElementById('resizeButton2');
+
+        // Проверяем, есть ли сохраненные значения в cookie
+        const savedWidth = getCookie("oilWidth");
+        const savedHeight = getCookie("oilHeight");
+
+        if (savedWidth && savedHeight) {
+            // Если есть сохраненные значения, применяем их
+            oilElement.style.width = savedWidth;
+            oilElement.style.height = savedHeight;
+        }
+
+        // Функция для уменьшения размеров
+        function decreaseSize() {
+            // Получаем текущие значения width и height
+            let currentWidth = parseInt(oilElement.style.width);
+            let currentHeight = parseInt(oilElement.style.height);
+
+            // Уменьшаем значения (например, на 100px)
+            oilElement.style.width = (currentWidth + 100) + 'px';
+            oilElement.style.height = (currentHeight + 100) + 'px';
+
+            // Сохраняем новые значения в cookie
+            setCookie("oilWidth", oilElement.style.width, 7); // Сохраняем на 7 дней
+            setCookie("oilHeight", oilElement.style.height, 7); // Сохраняем на 7 дней
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('oil'));
+            chart.draw(data, options);
+        }
+
+        function encreaseSize() {
+            // Получаем текущие значения width и height
+            let currentWidth = parseInt(oilElement.style.width);
+            let currentHeight = parseInt(oilElement.style.height);
+
+            // Уменьшаем значения (например, на 100px)
+            oilElement.style.width = (currentWidth - 100) + 'px';
+            oilElement.style.height = (currentHeight - 100) + 'px';
+
+            // Сохраняем новые значения в cookie
+            setCookie("oilWidth", oilElement.style.width, 7); // Сохраняем на 7 дней
+            setCookie("oilHeight", oilElement.style.height, 7); // Сохраняем на 7 дней
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('oil'));
+            chart.draw(data, options);
+        }
+
+        // Добавляем обработчик события на кнопку
+        resizeButton.addEventListener('click', decreaseSize);
+        resizeButton2.addEventListener('click', encreaseSize);
+
+        const chartDiv = document.getElementById('oil');
+
+        var chart = new google.visualization.ColumnChart(chartDiv);
+        chart.draw(data, options);
+   }
+  </script>
+ </head>
+ <body>
+  <div id="oil" style="width: 700px; height: 300px;"></div>
+  <div class="text-container">
+  <p>Посмотреть статьи на эту тему:</p>
+  {%for res in result%}
+  <p>{{res|get:"title"}}</p>
+  <p><a href='{{res|get:"href"}}'>{{res|get:"href"}}</a></p>
+  {%endfor%}
+  <a href='/x'><button>Выйти</button></a>
+  </div>
+ </body>
+ </html>

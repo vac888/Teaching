@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="{% static 'js/script3.js' %}"></script>
+    <title>Сайт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            color: #fff;
+            background: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #4CAF50;
+        }
+
+        .info {
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        .info a {
+            color: #ffeb3b;
+            text-decoration: none;
+        }
+
+        .info a:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Контент модального окна */
+        .modal-content {
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        /* Кнопка закрытия */
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        /* Стили для полей ввода */
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Кнопка регистрации */
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background: #2575fc;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            background: #6a11cb;
+        }
+
+        /* Основные стили кнопки */
+        .open-modal-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Градиентный фон */
+            border: none;
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Плавный переход */
+            text-transform: uppercase; /* Верхний регистр */
+        }
+
+        /* Эффект при наведении */
+        .open-modal-btn:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* Меняем градиент */
+            transform: translateY(-2px); /* Легкое поднятие */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+        }
+
+        /* Эффект при нажатии */
+        .open-modal-btn:active {
+            transform: translateY(1px); /* Легкое опускание */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Уменьшаем тень */
+        }
+
+        .open-modal-btn2 {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Градиентный фон */
+            border: none;
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Плавный переход */
+            text-transform: uppercase; /* Верхний регистр */
+        }
+
+        /* Эффект при наведении */
+        .open-modal-btn2:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* Меняем градиент */
+            transform: translateY(-2px); /* Легкое поднятие */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+        }
+
+        /* Эффект при нажатии */
+        .open-modal-btn2:active {
+            transform: translateY(1px); /* Легкое опускание */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Уменьшаем тень */
+        }
+
+        .open-modal-btn3 {
+            display: block; /* Делаем кнопку блочным элементом */
+            margin: 0 auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Градиентный фон */
+            border: none;
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Плавный переход */
+            text-transform: uppercase; /* Верхний регистр */
+        }
+
+        /* Эффект при наведении */
+        .open-modal-btn3:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* Меняем градиент */
+            transform: translateY(-2px); /* Легкое поднятие */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+        }
+
+        /* Эффект при нажатии */
+        .open-modal-btn3:active {
+            transform: translateY(1px); /* Легкое опускание */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Уменьшаем тень */
+        }
+
+        .open-modal-btn4 {
+            display: block; /* Делаем кнопку блочным элементом */
+            margin: 0 auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Градиентный фон */
+            border: none;
+            border-radius: 8px; /* Закругленные углы */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Плавный переход */
+            text-transform: uppercase; /* Верхний регистр */
+        }
+
+        /* Эффект при наведении */
+        .open-modal-btn4:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* Меняем градиент */
+            transform: translateY(-2px); /* Легкое поднятие */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+        }
+
+        /* Эффект при нажатии */
+        .open-modal-btn4:active {
+            transform: translateY(1px); /* Легкое опускание */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Уменьшаем тень */
+        }
+
+        .modal2 {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Контент модального окна */
+        .modal-content2 {
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        /* Кнопка закрытия */
+        .close-modal2 {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close-modal2:hover {
+            color: #333;
+        }
+
+        /* Стили для полей ввода */
+        .modal-content2 input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Кнопка регистрации */
+        .modal-content2 button {
+            width: 100%;
+            padding: 10px;
+            background: #2575fc;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .modal-content2 button:hover {
+            background: #6a11cb;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message2 {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        h2 {
+            color:#2575fc;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Выравнивание по вертикали */
+            width: 100%; /* Ширина контейнера */
+        }
+        .button-container button {
+            padding: 10px 50px;
+            font-size: 16px;
+        }
+        .close3 {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .close3 {
+            color: #333;
+        }
+        .text_color {
+            color:#2575fc;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close3">&times;</span>
+            <h2>Ошибка</h2>
+            <p class="text_color">Введен не правильный логин или пароль</p>
+        </div>
+    </div>
+    <script>
+
+
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Функция для получения cookie
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            const prefix = name + "=";
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(prefix) === 0) {
+                    return cookie.substring(prefix.length, cookie.length);
+                }
+            }
+            return "";
+        }
+        status = getCookie('status');
+        if (status === '-1')
+        {
+            document.cookie = 'status' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
+
+            const modal3 = document.getElementById('modal3');
+            const closeBtn3 = document.getElementsByClassName('close3')[0];
+
+            modal3.style.display = 'block';
+        
+            // Закрываем модальное окно при нажатии на крестик
+            closeBtn3.onclick = function() {
+                modal3.style.display = 'none';
+            }
+
+            // Закрываем модальное окно при клике вне его содержимого
+            window.onclick = function(event) {
+                if (event.target == modal3) {
+                    modal3.style.display = 'none';
+                }
+            }
+            location.reload(); 
+        }
+
+    </script>
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Регистрация</h2>
+            <form action="index5" method="post" id="registrationForm">
+                <input type="text" name="login" placeholder="Логин" required id="login_api">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Пароль" required id="password">
+                <input type="password" name="password_repeat" placeholder="Повторите пароль" required id="password_repeat">
+                <div class="error-message" id="passwordError">Пароли не совпадают</div>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal2" id="registrationModal2">
+        <div class="modal-content2">
+            <span class="close-modal2" id="closeModal2">&times;</span>
+            <h2>Вход</h2>
+            <form action="index4" method="post" id="registrationForm2">
+                <input type="text" name="login2" placeholder="Логин" required id="login_api2">
+                <input type="password" name="password2" placeholder="Пароль" required id="password2">
+                <div class="error-message2" id="passwordError2">Неверные данные</div>
+                <button type="submit">Вход</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Добро пожаловать!</h1>
+        <p>Это пример страницы сайта с кнопками для входа и информацией о сайте.</p>
+        <div class="button-container">
+        <button class="open-modal-btn" id="open-modal-btn" name="registr">Регистрации</button>
+        <button class="open-modal-btn2" id="open-modal-btn2" name="login">Логин</button>
+        <button class="open-modal-btn3" id="open-modal-btn3" onclick="showButton()">Выход</button>
+        </div>
+        <div id ='temp'></div>
+        <div id ='temp2'></div>
+        <div class="info">
+            <p>Узнайте больше о нашем сайте: <a href="info.html">Информация</a></p>
+            <div id="temp12"></div>
+            <script>
+                let container = document.getElementById("temp12");
+                if (getCookie("username") === 'true')
+                {
+                    let htmlString = '<a href="api_key.html"><button class="open-modal-btn4" id="open-modal-btn4">Получить api ключ</button></a>';
+                    container.innerHTML = htmlString;
+                }
+                else
+                {
+                    let htmlString = '<p>Ввойдите в аккаунт для получение api ключа</p>';
+                    container.innerHTML = htmlString;
+                }
+            </script>
+            <p>Выбирите предмет по которому хотите посмотреть баллы</p>
+            <form>
+                <label for="city-select">Предмет</label>
+                <select name="object312" id="object-select">
+                  <option value="">-- Выберите предмет --</option>
+                  <option value="russian">Русский язык</option>
+                  <option value="math">Математика</option>
+                  <option value="perm">Обществознание</option>
+                  <option value="inform">Информатика</option>
+                  <option value="english">Английский язык</option>
+                  <option value="history">История</option>
+                  <option value="liture">Литература</option>
+                  <option value="fizik">Физика</option>
+                  <option value="biology">Биология</option>
+                  <option value="himiy">Химия</option>
+                  <option value="geo">География</option>
+                </select>
+                <a href="page_1.html" class="btn" id="submitObject" type="submit">Посмотреть</a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Функция для получения cookie
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            const prefix = name + "=";
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(prefix) === 0) {
+                    return cookie.substring(prefix.length, cookie.length);
+                }
+            }
+            return "";
+        }
+        const selectElement = document.getElementById('object-select');
+
+        selectElement.addEventListener('change', function() {
+        const selectedValue = selectElement.value;
+        setCookie("chooseObject", selectedValue, 7);
+        });
+
+        // Получаем элементы модального окна и кнопки
+        const modal = document.getElementById('registrationModal');
+        const openModalBtn = document.querySelector('.open-modal-btn');
+        const closeModalBtn = document.getElementById('closeModal');
+        const registrationForm = document.getElementById('registrationForm');
+        const passwordInput = document.getElementById('password');
+        const passwordRepeatInput = document.getElementById('password_repeat');
+        const passwordError = document.getElementById('passwordError');
+        const loginInput = document.getElementById('login_api');
+
+        // Открываем модальное окно
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        // Закрываем модальное окно
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Закрываем модальное окно при клике вне его области
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        registrationForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Предотвращаем отправку формы\
+            let container = document.getElementById("temp");
+            if (passwordInput.value !== passwordRepeatInput.value) {
+                passwordError.style.display = 'block'; // Показываем сообщение об ошибке
+            } else {
+                alert('11111!')
+                passwordError.style.display = 'none'; // Скрываем сообщение об ошибке
+                modal.style.display = 'none'; // Закрываем модальное окно
+                let htmlString = '<button class="open-modal-btn3" id="open-modal-btn3" type="submit" onclick="showButton()>Выход</button>';
+                container.innerHTML = htmlString;
+                hideButton();
+                registrationForm.submit();
+                passwordInput.value = 0;
+                setCookie('login', loginInput.value, 365);
+                setCookie('password', passwordRepeatInput.value, 365);
+            }
+        });
+
+        // Получаем элементы модального окна и кнопки
+        const modal2 = document.getElementById('registrationModal2');
+        const openModalBtn2 = document.querySelector('.open-modal-btn2');
+        const closeModalBtn2 = document.getElementById('closeModal2');
+        const registrationForm2 = document.getElementById('registrationForm2');
+        var passwordInput2 = document.getElementById('password2');
+        const passwordError2 = document.getElementById('passwordError2');
+        var loginInput2 = document.getElementById('login_api2');
+
+        // Открываем модальное окно
+        openModalBtn2.addEventListener('click', () => {
+            modal2.style.display = 'block';
+        });
+
+        // Закрываем модальное окно
+        closeModalBtn2.addEventListener('click', () => {
+            modal2.style.display = 'none';
+        });
+
+        // Закрываем модальное окно при клике вне его области
+        window.addEventListener('click', (event) => {
+            if (event.target === modal2) {
+                modal2.style.display = 'none';
+            }
+        });
+
+        registrationForm2.addEventListener('submit', (event) => {
+            function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            const prefix = name + "=";
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(prefix) === 0) {
+                    return cookie.substring(prefix.length, cookie.length);
+                }
+            }
+                return "";
+            }
+
+            
+            status = getCookie('status')
+            location.reload(); 
+            let container = document.getElementById("temp2");
+            if(status === '-1')
+            {
+                passwordError2.style.display = 'block'; // Показываем сообщение об ошибке
+            }
+            if(status === '1')
+            {
+                passwordError2.style.display = 'none'; // Скрываем сообщение об ошибке
+                modal2.style.display = 'none'; // Закрываем модальное окно
+                let htmlString = '<button class="open-modal-btn4" id="open-modal-btn4" type="submit" onclick="showButton()>Выход</button>';
+                container.innerHTML = htmlString;
+                hideButton();
+                registrationForm2.submit();
+                passwordInput2.value = 0;
+            }
+        });
+
+            status = getCookie('status')
+            if (status){
+                //location.reload(); 
+                if(status === '-1')
+                {
+                    passwordError2.style.display = 'block'; // Показываем сообщение об ошибке
+                }
+                if(status === '1')
+                {
+                    function setCookie(name, value, days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    const expires = "expires=" + date.toUTCString();
+                    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+                    }
+                    //setCookie('login2', loginInput2.value, 365);
+                    //setCookie('password2', passwordInput2.value, 365);
+                    passwordError2.style.display = 'none'; // Скрываем сообщение об ошибке
+                    modal2.style.display = 'none'; // Закрываем модальное окно
+                    let htmlString = '<button class="open-modal-btn4" id="open-modal-btn4" type="submit" onclick="showButton()>Выход</button>';
+                    container.innerHTML = htmlString;
+                    hideButton();
+                    registrationForm2.submit();
+                    passwordInput2.value = 0;
+                    document.cookie = 'status' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
+                }
+            }
+            
+    </script>
+</body>
+</html>
